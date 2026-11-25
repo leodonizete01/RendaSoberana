@@ -1,0 +1,57 @@
+/* Custom CSS Styles for RendaSoberana - Investimentos Simples */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0B0F19;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1F2937;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #374151;
+}
+
+/* Custom Range Input */
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #1f2937;
+    border-radius: 9999px;
+    height: 6px;
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #10b981;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    background: #34d399;
+}
+
+/* Tabular numbers for clean alignment */
+.font-mono {
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+}

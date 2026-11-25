@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RendaSoberana | Investimentos Simples &amp; Simulador de Renda Fixa</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            900: '#064e3b',
+                        },
+                        darkbg: '#0B0F19',
+                        cardbg: '#111827',
+                        bordercolor: '#1F2937'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-darkbg text-gray-100 min-h-screen font-sans flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-darkbg/90 backdrop-blur-md border-b border-bordercolor">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                    <i class="fa-solid fa-crown text-white text-lg"></i>
+                </div>
+                <div>
+                    <span class="font-extrabold text-lg tracking-tight text-white">Renda<span class="text-brand-400">Soberana</span></span>
+                    <p class="text-[11px] text-gray-400 font-medium hidden sm:block">Investimentos Simples • Renda Fixa</p>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-300">
+                <a href="#opcoes" class="hover:text-brand-400 transition">Opções</a>
+                <a href="#simulador" class="hover:text-brand-400 transition">Simulador</a>
+                <a href="#guia" class="hover:text-brand-400 transition">Como funciona</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <a href="#simulador" class="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-darkbg font-bold text-xs sm:text-sm transition shadow-lg shadow-brand-500/20">
+                <i class="fa-solid fa-calculator"></i>
+                <span>Simular Agora</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-14">
+
+        <!-- Hero / Landing Section -->
+        <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950/50 via-cardbg to-gray-900 border border-brand-500/20 p-7 sm:p-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-5">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-mono">
+                        <i class="fa-solid fa-shield-halved text-brand-400"></i>
+                        <span>Simples, transparente e sem complicação</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                        Faça seu dinheiro render mais que a <span class="text-brand-400">Poupança</span>.
+                    </h1>
+
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed max-w-xl">
+                        Compare opções seguras de Renda Fixa — como CDB 100% CDI, Tesouro Selic e LCI/LCA — e simule quanto seu dinheiro pode render mês a mês, já descontando o Imposto de Renda.
+                    </p>
+
+                    <div class="flex flex-wrap gap-3 pt-1">
+                        <a href="#simulador" class="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-darkbg font-bold text-sm transition shadow-lg shadow-brand-500/25">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Simular Rendimento</span>
+                        </a>
+                        <a href="#opcoes" class="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-gray-800/80 hover:bg-gray-700 text-white font-medium text-sm border border-bordercolor transition">
+                            <span>Ver Opções Seguras</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Highlight Cards -->
+                <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+                    <div class="bg-darkbg/70 border border-bordercolor rounded-2xl p-4 flex items-center gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Comece com R$ 100</p>
+                            <p class="text-xs text-gray-400">Não precisa ter muito para começar a investir.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-darkbg/70 border border-bordercolor rounded-2xl p-4 flex items-center gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Segurança de Renda Fixa</p>
+                            <p class="text-xs text-gray-400">Proteção do FGC ou do Tesouro Nacional.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-darkbg/70 border border-bordercolor rounded-2xl p-4 flex items-center gap-4 sm:col-span-2 lg:col-span-1">
+                        <div class="w-11 h-11 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Comparação Real</p>
+                            <p class="text-xs text-gray-400">Veja o valor líquido lado a lado com a Poupança.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Opções de Investimento -->
+        <section id="opcoes" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-bordercolor pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Principais Opções de Renda Fixa</h2>
+                    <p class="text-sm text-gray-400">Escolha uma alternativa abaixo para carregar diretamente no simulador.</p>
+                </div>
+                <span class="text-xs font-mono text-gray-400 bg-cardbg border border-bordercolor px-3 py-1.5 rounded-lg self-start sm:self-auto">
+                    Taxas de referência: CDI 10,65% a.a. • Selic 10,75% a.a.
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- Poupança -->
+                <div class="bg-cardbg border border-bordercolor rounded-2xl p-5 flex flex-col justify-between hover:border-gray-600 transition">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-gray-800 text-gray-300 border border-gray-700">Tradicional</span>
+                            <span class="text-xs font-mono text-emerald-400">Isento de IR</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Poupança</h3>
+                            <p class="text-xs text-gray-400 mt-1">A opção mais conhecida, com liquidez imediata, porém com menor rentabilidade real.</p>
+                        </div>
+                        <div class="bg-darkbg/70 p-3 rounded-xl border border-bordercolor space-y-1.5 font-mono text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Rendimento:</span>
+                                <span class="text-white font-bold">~6,17% a.a.</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Liquidez:</span>
+                                <span class="text-gray-300">Imediata</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="app.selectOption('poupanca')" class="mt-5 w-full py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-semibold text-xs transition border border-gray-700">
+                        Simular Poupança
+                    </button>
+                </div>
+
+                <!-- CDB 100% CDI -->
+                <div class="bg-cardbg border border-brand-500/40 rounded-2xl p-5 flex flex-col justify-between hover:border-brand-400 transition shadow-lg shadow-brand-500/5">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-brand-500/10 text-brand-400 border border-brand-500/20">Mais Popular</span>
+                            <span class="text-xs font-mono text-gray-400">IR Regressivo</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">CDB 100% CDI</h3>
+                            <p class="text-xs text-gray-400 mt-1">Ideal para substituir a poupança. Rende todo dia útil e tem garantia do FGC até R$ 250 mil.</p>
+                        </div>
+                        <div class="bg-darkbg/70 p-3 rounded-xl border border-bordercolor space-y-1.5 font-mono text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Rendimento:</span>
+                                <span class="text-emerald-400 font-bold">10,65% a.a.</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Liquidez:</span>
+                                <span class="text-gray-300">Diária</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="app.selectOption('cdb')" class="mt-5 w-full py-2.5 rounded-xl bg-brand-500/15 hover:bg-brand-500 text-brand-400 hover:text-darkbg font-bold text-xs transition border border-brand-500/30">
+                        Simular CDB 100% CDI
+                    </button>
+                </div>
+
+                <!-- Tesouro Selic -->
+                <div class="bg-cardbg border border-bordercolor rounded-2xl p-5 flex flex-col justify-between hover:border-blue-500/50 transition">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-500/10 text-blue-400 border border-blue-500/20">Segurança Máxima</span>
+                            <span class="text-xs font-mono text-gray-400">IR Regressivo</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Tesouro Selic</h3>
+                            <p class="text-xs text-gray-400 mt-1">Título público garantido pelo Tesouro Nacional. Excelente para reserva de emergência.</p>
+                        </div>
+                        <div class="bg-darkbg/70 p-3 rounded-xl border border-bordercolor space-y-1.5 font-mono text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Rendimento:</span>
+                                <span class="text-blue-400 font-bold">10,75% a.a.</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Liquidez:</span>
+                                <span class="text-gray-300">D+1 útil</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="app.selectOption('selic')" class="mt-5 w-full py-2.5 rounded-xl bg-blue-500/10 hover:bg-blue-500 text-blue-400 hover:text-white font-bold text-xs transition border border-blue-500/30">
+                        Simular Tesouro Selic
+                    </button>
+                </div>
+
+                <!-- LCI / LCA -->
+                <div class="bg-cardbg border border-bordercolor rounded-2xl p-5 flex flex-col justify-between hover:border-purple-500/50 transition">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-purple-500/10 text-purple-400 border border-purple-500/20">Sem Imposto</span>
+                            <span class="text-xs font-mono text-emerald-400">Isento de IR</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">LCI / LCA 90% CDI</h3>
+                            <p class="text-xs text-gray-400 mt-1">Títulos isentos de Imposto de Renda para pessoa física e protegidos pelo FGC.</p>
+                        </div>
+                        <div class="bg-darkbg/70 p-3 rounded-xl border border-bordercolor space-y-1.5 font-mono text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Rendimento:</span>
+                                <span class="text-purple-400 font-bold">~9,59% a.a.</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Liquidez:</span>
+                                <span class="text-gray-300">Após carência</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="app.selectOption('lci')" class="mt-5 w-full py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500 text-purple-400 hover:text-white font-bold text-xs transition border border-purple-500/30">
+                        Simular LCI / LCA
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Simulador de Rendimento -->
+        <section id="simulador" class="bg-cardbg border border-bordercolor rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-bordercolor pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-calculator text-brand-400"></i>
+                        Simulador de Rendimento
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Informe quanto quer investir hoje, se fará aportes mensais e compare o resultado líquido com a Poupança.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Controls Column -->
+                <div class="lg:col-span-5 space-y-5 bg-darkbg/60 p-5 rounded-2xl border border-bordercolor">
+                    <!-- Investimento Selecionado -->
+                    <div>
+                        <label for="sim-type" class="block text-xs font-mono font-medium text-gray-300 mb-1.5">OPÇÃO DE INVESTIMENTO</label>
+                        <select id="sim-type" class="w-full bg-cardbg border border-bordercolor focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none transition">
+                            <option value="cdb" selected>CDB 100% CDI (10,65% a.a. bruto)</option>
+                            <option value="selic">Tesouro Selic (10,75% a.a. bruto)</option>
+                            <option value="lci">LCI / LCA 90% CDI (9,59% a.a. isento)</option>
+                            <option value="poupanca">Poupança (6,17% a.a. isento)</option>
+                        </select>
+                    </div>
+
+                    <!-- Valor Inicial -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1.5">
+                            <label for="sim-initial" class="text-xs font-mono font-medium text-gray-300">INVESTIMENTO INICIAL</label>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 font-mono font-bold text-sm">R$</span>
+                            <input type="number" id="sim-initial" min="0" step="50" value="1000" class="w-full bg-cardbg border border-bordercolor focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl pl-11 pr-4 py-2.5 text-white font-mono font-bold text-base outline-none transition">
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button type="button" onclick="app.setInitialAmount(100)" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">R$ 100</button>
+                            <button type="button" onclick="app.setInitialAmount(500)" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">R$ 500</button>
+                            <button type="button" onclick="app.setInitialAmount(1000)" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">R$ 1.000</button>
+                            <button type="button" onclick="app.setInitialAmount(5000)" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">R$ 5.000</button>
+                        </div>
+                    </div>
+
+                    <!-- Aporte Mensal -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1.5">
+                            <label for="sim-monthly" class="text-xs font-mono font-medium text-gray-300">APORTE MENSAL</label>
+                            <span class="text-[11px] text-gray-500">Opcional</span>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 font-mono font-bold text-sm">R$</span>
+                            <input type="number" id="sim-monthly" min="0" step="50" value="200" class="w-full bg-cardbg border border-bordercolor focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl pl-11 pr-4 py-2.5 text-white font-mono font-bold text-base outline-none transition">
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button type="button" onclick="app.setMonthlyAmount(0)" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">R$ 0</button>
+                            <button type="button" onclick="app.setMonthlyAmount(100)" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">R$ 100</button>
+                            <button type="button" onclick="app.setMonthlyAmount(200)" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">R$ 200</button>
+                            <button type="button" onclick="app.setMonthlyAmount(500)" class="px-2.5 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">R$ 500</button>
+                        </div>
+                    </div>
+
+                    <!-- Prazo (Meses) -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1.5">
+                            <label for="sim-months" class="text-xs font-mono font-medium text-gray-300">PRAZO</label>
+                            <span id="sim-months-display" class="text-xs font-mono font-bold text-brand-400">12 meses (1 ano)</span>
+                        </div>
+                        <input type="range" id="sim-months" min="1" max="60" step="1" value="12" class="w-full cursor-pointer">
+                        <div class="flex justify-between gap-2 mt-2">
+                            <button type="button" onclick="app.setMonths(6)" class="flex-1 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">6m</button>
+                            <button type="button" onclick="app.setMonths(12)" class="flex-1 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">1 ano</button>
+                            <button type="button" onclick="app.setMonths(24)" class="flex-1 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">2 anos</button>
+                            <button type="button" onclick="app.setMonths(36)" class="flex-1 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">3 anos</button>
+                            <button type="button" onclick="app.setMonths(60)" class="flex-1 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 font-mono border border-gray-700 transition">5 anos</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results & Chart Column -->
+                <div class="lg:col-span-7 space-y-5">
+                    <!-- Summary KPI Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="bg-darkbg/70 border border-bordercolor rounded-2xl p-4">
+                            <p class="text-xs font-mono text-gray-400">Total Investido</p>
+                            <p id="res-invested" class="text-lg sm:text-xl font-bold font-mono text-white mt-1">R$ 3.400,00</p>
+                        </div>
+                        <div class="bg-darkbg/70 border border-bordercolor rounded-2xl p-4">
+                            <p class="text-xs font-mono text-gray-400">Rendimento Líquido</p>
+                            <p id="res-profit" class="text-lg sm:text-xl font-bold font-mono text-emerald-400 mt-1">+ R$ 192,45</p>
+                            <p id="res-tax-info" class="text-[11px] text-gray-500 mt-0.5">IR aplicado: 17,5%</p>
+                        </div>
+                        <div class="bg-emerald-950/30 border border-brand-500/30 rounded-2xl p-4">
+                            <p class="text-xs font-mono text-brand-300">Valor Final Líquido</p>
+                            <p id="res-total" class="text-lg sm:text-xl font-extrabold font-mono text-brand-400 mt-1">R$ 3.592,45</p>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="bg-darkbg/60 p-4 rounded-2xl border border-bordercolor">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-3 text-xs font-mono text-gray-400">
+                            <span>Evolução do Patrimônio (Valores Líquidos)</span>
+                            <div class="flex items-center gap-4">
+                                <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-emerald-400 inline-block"></span> <span id="chart-selected-label">CDB 100% CDI</span></span>
+                                <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-amber-400 inline-block"></span> Poupança</span>
+                                <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-gray-500 inline-block"></span> Total Investido</span>
+                            </div>
+                        </div>
+                        <div class="relative h-[280px] w-full">
+                            <canvas id="yieldChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Callout -->
+                    <div id="comparison-banner" class="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 flex items-center justify-between gap-3 text-xs sm:text-sm">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-arrow-trend-up text-brand-400 text-base"></i>
+                            <span id="comparison-text" class="text-gray-200">
+                                Nessa simulação, você ganha <strong class="text-brand-400">R$ 75,00 a mais</strong> do que deixando o mesmo valor na Poupança.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Guia Rápido para Iniciantes -->
+        <section id="guia" class="bg-cardbg border border-bordercolor rounded-3xl p-6 sm:p-8 space-y-6">
+            <div class="border-b border-bordercolor pb-3">
+                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-brand-400"></i>
+                    Entenda o Básico em 1 Minuto
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-400">Os três conceitos que você precisa saber para investir com segurança.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="bg-darkbg/70 p-5 rounded-2xl border border-bordercolor space-y-2">
+                    <div class="text-brand-400 font-bold text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-percent"></i>
+                        <span>1. O que é CDI e Selic?</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                        A <strong>Selic</strong> é a taxa básica de juros do Brasil. O <strong>CDI</strong> anda sempre muito próximo dela. Quando um CDB paga "100% do CDI", ele acompanha de perto os juros do país.
+                    </p>
+                </div>
+
+                <div class="bg-darkbg/70 p-5 rounded-2xl border border-bordercolor space-y-2">
+                    <div class="text-blue-400 font-bold text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-landmark"></i>
+                        <span>2. Por que sair da Poupança?</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                        Mesmo sendo isenta de imposto, a Poupança costuma render bem menos que um CDB 100% CDI ou o Tesouro Selic — mesmo após descontar o Imposto de Renda dessas opções.
+                    </p>
+                </div>
+
+                <div class="bg-darkbg/70 p-5 rounded-2xl border border-bordercolor space-y-2">
+                    <div class="text-amber-400 font-bold text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        <span>3. Como funciona o IR?</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                        O imposto incide apenas sobre o <strong>lucro</strong> (nunca sobre o que você depositou) e cai com o tempo: 22,5% até 6 meses, 20% até 1 ano, 17,5% até 2 anos e 15% acima de 2 anos.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-bordercolor bg-darkbg py-6 mt-8 text-xs text-gray-500">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-gray-400">RendaSoberana</span>
+                <span>• Simulador Educacional de Investimentos</span>
+            </div>
+            <p class="text-center sm:text-right">
+                Valores e taxas referenciais para fins de simulação. Não constitui recomendação financeira.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+</body>
+</html>
